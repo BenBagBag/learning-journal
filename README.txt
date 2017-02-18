@@ -17,3 +17,5 @@ Getting Started
 - cd <directory containing development.ini>
 
 - run: setup_db development.ini
+
+- run server: pserve development.ini

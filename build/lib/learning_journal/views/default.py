@@ -36,9 +36,9 @@ def create(request):
     return {'form': form, 'action': request.matchdict.get('action')}
 
 
-@view_config(route_name='action', match_param='action=edit', renderer='string')
-def update(request):
-    return 'edit page'
+# @view_config(route_name='action', match_param='action=edit', renderer='string')
+# def update(request):
+#     return 'edit page'
 
 
 db_err_msg = """\
