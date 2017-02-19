@@ -13,6 +13,7 @@ from pyramid.httpexceptions import HTTPNotFound
 @view_config(route_name='home', renderer='templates/list.jinja2')
 def index_page(request):
     entries = Entry.all()
+    print('we hit this')
     return {"entries": entries}
 
 
@@ -22,7 +23,7 @@ def view(request):
     entry = Entry.by_id(this_id)
     if not entry:
         return HTTPNotFound()
-    return {"entry": entry}
+    return {'entry': entry, 'id': this_id}
 
 
 @view_config(route_name='action', match_param='action=create', renderer='templates/edit.jinja2')
@@ -36,9 +37,20 @@ def create(request):
     return {'form': form, 'action': request.matchdict.get('action')}
 
 
-@view_config(route_name='action', match_param='action=edit', renderer='string')
+@view_config(route_name='action', match_param='action=edit', renderer='templates/edit.jinja2')
 def update(request):
-    return 'edit page'
+    # this_id = request.matchdict.get('id', -1)
+    this_id = request.matchdict['id']
+    entry = Entry.by_id(this_id)
+    if not entry:
+        return HTTPNotFound()
+    form = EntryCreateForm(request.POST, entry)
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(entry)
+        DBSession.add(entry)
+        return HTTPFound(location=request.route_url('detail', id=request.matchdict.get('id', -1)))
+    return {'form': form, 'action': request.matchdict.get('action'), 'id': this_id}
+
 
 
 db_err_msg = """\

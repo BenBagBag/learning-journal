@@ -34,7 +34,6 @@ Base = declarative_base()
 #
 # Index('my_index', MyModel.name, unique=True, mysql_length=255)
 
-#add entry class - to be used by our learning journal
 class Entry(Base):
     __tablename__ = 'entries'
     id = Column(Integer, primary_key=True)
