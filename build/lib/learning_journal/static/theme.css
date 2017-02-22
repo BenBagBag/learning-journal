@@ -2,8 +2,8 @@
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
-  color: #ffffff;
-  background: #bc2131;
+  color: blue;
+  background:	#A9A9A9;
 }
 h1,
 h2,
@@ -131,6 +131,14 @@ p {
   }
 }
 @media (max-width: 767px) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-align: center;
+  }
   .starter-template .content h1 .smaller {
     font-size: 25px;
     display: block;

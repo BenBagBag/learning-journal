@@ -10,14 +10,13 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPNotFound
 
 
-@view_config(route_name='home', renderer='templates/list.jinja2')
+@view_config(route_name='home', renderer='templates/list.jinja2', permission='view')
 def index_page(request):
     entries = Entry.all()
-    print('we hit this')
     return {"entries": entries}
 
 
-@view_config(route_name='detail', renderer='templates/detail.jinja2')
+@view_config(route_name='detail', renderer='templates/detail.jinja2', permission='view')
 def view(request):
     this_id = request.matchdict.get('id', -1)
     entry = Entry.by_id(this_id)
@@ -26,7 +25,7 @@ def view(request):
     return {'entry': entry, 'id': this_id}
 
 
-@view_config(route_name='action', match_param='action=create', renderer='templates/edit.jinja2')
+@view_config(route_name='action', match_param='action=create', renderer='templates/edit.jinja2', permission='create')
 def create(request):
     entry = Entry()
     form = EntryCreateForm(request.POST)
@@ -37,9 +36,8 @@ def create(request):
     return {'form': form, 'action': request.matchdict.get('action')}
 
 
-@view_config(route_name='action', match_param='action=edit', renderer='templates/edit.jinja2')
+@view_config(route_name='action', match_param='action=edit', renderer='templates/edit.jinja2', permission='edit')
 def update(request):
-    # this_id = request.matchdict.get('id', -1)
     this_id = request.matchdict['id']
     entry = Entry.by_id(this_id)
     if not entry:

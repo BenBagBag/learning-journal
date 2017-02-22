@@ -2,28 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Learning Journal</title>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link href="{{ request.static_path('learning_journal:static/styles.css') }}" rel="stylesheet">
+    <!-- <link href="{{ request.static_path('learning_journal:static/new.css') }}" rel="stylesheet"> -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <header>
-      <nav>
-        <ul>
-          <li><a href="{{ request.route_url('home') }}">Home</a></li>
-        </ul>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">Python Learning Journal</div>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="{{ request.route_url('home') }}">Home</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
       </nav>
     </header>
-    <main>
-      <h1>My Python Journal</h1>
-      <section id="content">
-      {% block body %}{% endblock %}
-      </section>
-    </main>
-    <footer>
-      <p>Created in the UW PCE Python Certificate Program</p>
-    </footer>
+      <!-- <h1>My Python Journal</h1> -->
+      <div class="panel panel-default">
+        <section id="content">
+        {% block body %}{% endblock %}
+        </section>
+        <div class="panel-footer">
+          <p>Created in the UW PCE Python Certificate Program</p>
+        </div>
+      </div>
   </body>
 </html>

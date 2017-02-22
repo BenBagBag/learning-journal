@@ -58,3 +58,14 @@ class Entry(Base):
         if session is None:
             session = DBSession
         return session.query(cls).get(id)
+
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(Unicode(255), unique=True, nullable=False)
+    password = Column(Unicode(255), nullable=False)
+
+    @classmethod
+    def by_name(cls, name):
+        return DBSession.query(cls).filter(cls.name == name).first()

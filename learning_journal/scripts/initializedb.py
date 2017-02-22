@@ -16,6 +16,15 @@ from ..models import (
     get_tm_session,
     )
 
+from ..models.mymodel import (
+    DBSession,
+    Base,
+    User, # <-- new
+    password_context, # <-- new
+)
+
+from sqlalchemy import engine_from_config
+
 # don't need this, it will just cause an error since MyModel doens't exist anymore
 # from ..models import MyModel
 
@@ -34,11 +43,17 @@ def main(argv=sys.argv):
     options = parse_vars(argv[2:])
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
-
-    engine = get_engine(settings)
+    engine = engine_from_config(settings, 'sqlalchemy.')
+    DBSession.configure(bind=engine)
+    # engine = get_engine(settings)
     Base.metadata.create_all(engine)
+    with transaction.manager:
+        password = os.environ.get('ADMIN_PASSWORD', 'admin')
+        encrypted = password_context.encrypt(password)
+        admin = User(name=u'admin', password=encrypted)
+        DBSession.add(admin)
 
-    session_factory = get_session_factory(engine)
+    # session_factory = get_session_factory(engine)
 
     # need to get rid of this, it just adds stuff to MyModel which no longer exists
     # with transaction.manager:

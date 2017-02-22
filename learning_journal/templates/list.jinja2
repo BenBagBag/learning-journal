@@ -1,16 +1,37 @@
 {% extends 'layout.jinja2' %}
 {% block body %}
-{% if entries %}
-<h2>Journal Entries</h2>
-<ul>
-  {% for entry in entries %}
-    <li>
-      <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
-    </li>
+<div class="panel panel-primary">
+{% if login_form %}
+<aside><form action="{{ request.route_url('auth', action='in') }}" method="POST">
+  {% for field in login_form %}
+    {% if field.errors %}
+      <ul>{% for error in field.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}</ul>
+    {% endif %}
+      <p>{{ field.label }}: {{ field }}</p>
   {% endfor %}
-</ul>
-{% else %}
-<p>This journal is empty.</p>
+  <p><input type="submit" name="Log In" value="Log In"/></p>
+</form></aside>
 {% endif %}
-<p><a href="{{ request.route_url('action', action='create', id='') }}">New Entry</a></p>
+{% if entries %}
+  <div class="panel-header">
+    <h2 class="panel-title">Journal Entries</h2>
+  </div>
+  <ul>
+    {% for entry in entries %}
+      <li>
+        <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="panel-body">
+    <p>This journal is empty.</p>
+{% endif %}
+    <a class="btn btn-primary" role="button" href="{{ request.route_url('action', action='create', id='') }}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Entry
+    </a>
+  </div>
 {% endblock %}

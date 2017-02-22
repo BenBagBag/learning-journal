@@ -7,5 +7,8 @@
     <hr/>
     <p>Created <strong title="{{ entry.created }}">{{entry.created}}</strong></p>
   </article>
-  <p><a href="{{ request.route_url('action', action='edit', id=id) }}">Edit Entry</a></p>
+  <a class="btn btn-primary" role="button" href="{{ request.route_url('action', action='edit', id=id) }}">
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit Entry
+  </a>
 {% endblock %}

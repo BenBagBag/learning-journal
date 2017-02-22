@@ -1,4 +1,6 @@
 from pyramid.config import Configurator
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 
 from sqlalchemy import engine_from_config
 from .models.mymodel import Base, DBSession
@@ -9,7 +11,12 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, "sqlalchemy.")
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
-    config = Configurator(settings=settings)
+    config = Configurator(
+        settings=settings,
+        authentication_policy=AuthTktAuthenticationPolicy('somesecret'),
+        authorization_policy=ACLAuthorizationPolicy(),
+        default_permission='view'
+        )
     config.include('pyramid_jinja2')
     config.include('.models')
     config.include('.routes')

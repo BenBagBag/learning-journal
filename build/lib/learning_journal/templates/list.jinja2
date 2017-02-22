@@ -1,16 +1,24 @@
 {% extends 'layout.jinja2' %}
 {% block body %}
+<div class="panel panel-primary">
 {% if entries %}
-<h2>Journal Entries</h2>
-<ul>
-  {% for entry in entries %}
-    <li>
-      <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+  <div class="panel-header">
+    <h2 class="panel-title">Journal Entries</h2>
+  </div>
+  <ul>
+    {% for entry in entries %}
+      <li>
+        <a href="{{ request.route_url('detail', id=entry.id) }}">{{ entry.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 {% else %}
-<p>This journal is empty.</p>
+  <div class="panel-body">
+    <p>This journal is empty.</p>
 {% endif %}
-<p><a href="{{ request.route_url('action', action='create', id='') }}">New Entry</a></p>
+    <a class="btn btn-primary" role="button" href="{{ request.route_url('action', action='create', id='') }}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New Entry
+    </a>
+  </div>
 {% endblock %}
